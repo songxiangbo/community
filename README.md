@@ -9,6 +9,20 @@
 [github oauth document](https://docs.github.com/en/free-pro-team@latest/developers/apps/building-oauth-apps)
 
 ##工具
-[Git](https://git-scm.com/download)
+[Git](https://git-scm.com/download)  
 [Visual-Paradigm](https://www.visual-paradigm.com)
+
+#脚本
+
+
+```sql
+CREATE CACHED TABLE "PUBLIC"."USER"(
+    "ID" INT DEFAULT  NOT NULL NULL_TO_DEFAULT,
+    "ACCOUNT_ID" VARCHAR(100),
+    "NAME" VARCHAR(50),
+    "TOKEN" CHAR(36),
+    "GMT_CREATE" BIGINT,
+    "GMT_MODIFIED" BIGINT
+);
+```
 
