@@ -1,40 +1,15 @@
+
+/**
+ * Created by codedrinker on 2019/6/1.
+ */
+
 /**
  * 提交回复
  */
 function post() {
     var questionId = $("#question_id").val();
     var content = $("#comment_content").val();
-    if(!content){
-        alert("不能回复空内容~~~~");
-        return ;
-    }
-    $.ajax({
-        type: "POST",
-        url: "/comment",
-        contentType: 'application/json',
-        data: JSON.stringify({
-            "parentId": questionId,
-            "content": content,
-            "type": 1
-        }),
-        success: function (response) {
-            if (response.code == 200) {
-                window.location.reload();
-            } else {
-                if (response.code == 2003) {
-                    var isAccepted = confirm(response.message);
-                    if (isAccepted) {
-                        window.open("https://github.com/login/oauth/authorize?client_id=f880cda351bdcef6fcd1&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
-                        window.localStorage.setItem("closable", true);
-                    }
-                } else {
-                    alert(response.message);
-                }
-            }
-        },
-        dataType: "json"
-    });
-
+    comment2target(questionId, 1, content);
 }
 
 function comment2target(targetId, type, content) {
@@ -53,7 +28,6 @@ function comment2target(targetId, type, content) {
             "type": type
         }),
         success: function (response) {
-            debugger;
             if (response.code == 200) {
                 window.location.reload();
             } else {
@@ -72,18 +46,15 @@ function comment2target(targetId, type, content) {
     });
 }
 
-
-function comments(e) {
+function comment(e) {
     var commentId = e.getAttribute("data-id");
     var content = $("#input-" + commentId).val();
     comment2target(commentId, 2, content);
 }
 
-
 /**
  * 展开二级评论
  */
-
 function collapseComments(e) {
     var id = e.getAttribute("data-id");
     var comments = $("#comment-" + id);
@@ -143,6 +114,22 @@ function collapseComments(e) {
                 e.setAttribute("data-collapse", "in");
                 e.classList.add("active");
             });
+        }
+    }
+}
+
+function showSelectTag() {
+    $("#select-tag").show();
+}
+
+function selectTag(e) {
+    var value = e.getAttribute("data-tag");
+    var previous = $("#tag").val();
+    if (previous.indexOf(value) == -1) {
+        if (previous) {
+            $("#tag").val(previous + ',' + value);
+        } else {
+            $("#tag").val(value);
         }
     }
 }
